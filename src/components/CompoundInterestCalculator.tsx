@@ -269,69 +269,83 @@ export default function CompoundInterestCalculator() {
           </Card>
 
           {result && calculatedInputs && (
-            <div className="space-y-4 flex-1">
-                <Stats className="shadow text-md flex flex-wrap gap-4">
-                  <Stats.Stat className="w-auto">
-                    <Stats.Stat.Title className="font-semibold">סכום סופי</Stats.Stat.Title>
-                    <Stats.Stat.Value
-                      className="text-lg"
-                      style={{ color: "#8884d8" }}
-                    >
-                      {formatCurrency(result.finalAmount)}
-                    </Stats.Stat.Value>
-                  </Stats.Stat>
-                  <Stats.Stat  className="w-auto">
-                    <Stats.Stat.Title className="font-semibold">סך הפקדות</Stats.Stat.Title>
-                    <Stats.Stat.Value
-                      className="text-lg"
-                      style={{ color: "#82ca9d" }}
-                    >
-                      {formatCurrency(result.totalDeposits)}
-                    </Stats.Stat.Value>
-                  </Stats.Stat>
-                  <Stats.Stat  className="w-auto">
-                    <Stats.Stat.Title className="font-semibold">רווח</Stats.Stat.Title>
-                    <Stats.Stat.Value
-                      className="text-lg"
-                      style={{ color: "#ffc658" }}
-                    >
-                      {formatCurrency(result.totalProfit)}
-                    </Stats.Stat.Value>
-                  </Stats.Stat>
-                  <Stats.Stat className="w-auto">
-                    <Stats.Stat.Title className="font-semibold">רווח אחרי מס (25%)</Stats.Stat.Title>
-                    <Stats.Stat.Value
-                      className="text-lg"
-                      style={{ color: "#ffc658" }}
-                    >
-                      {formatCurrency(result.profitAfterTax)}
-                    </Stats.Stat.Value>
-                  </Stats.Stat>
-                  <Stats.Stat className="w-auto">
-                    <Stats.Stat.Title className="font-semibold">סכום סופי אחרי מס</Stats.Stat.Title>
-                    <Stats.Stat.Value
-                      className="text-lg"
-                      style={{ color: "#8884d8" }}
-                    >
-                      {formatCurrency(
-                        result.totalDeposits + result.profitAfterTax
-                      )}
-                    </Stats.Stat.Value>
-                  </Stats.Stat>
-                </Stats>
+            <div className="space-y-4 flex-1 w-full">
+              <Stats className=" text-md flex flex-wrap gap-4 p-1">
+                <Stats.Stat className="w-auto shadow">
+                  <Stats.Stat.Title className="font-semibold">
+                    סכום סופי
+                  </Stats.Stat.Title>
+                  <Stats.Stat.Value
+                    className="text-lg"
+                    style={{ color: "#8884d8" }}
+                  >
+                    {formatCurrency(result.finalAmount)}
+                  </Stats.Stat.Value>
+                </Stats.Stat>
+                <Stats.Stat className="w-auto shadow">
+                  <Stats.Stat.Title className="font-semibold">
+                    סך הפקדות
+                  </Stats.Stat.Title>
+                  <Stats.Stat.Value
+                    className="text-lg"
+                    style={{ color: "#82ca9d" }}
+                  >
+                    {formatCurrency(result.totalDeposits)}
+                  </Stats.Stat.Value>
+                </Stats.Stat>
+                <Stats.Stat className="w-auto shadow">
+                  <Stats.Stat.Title className="font-semibold">
+                    רווח
+                  </Stats.Stat.Title>
+                  <Stats.Stat.Value
+                    className="text-lg"
+                    style={{ color: "#ffc658" }}
+                  >
+                    {formatCurrency(result.totalProfit)}
+                  </Stats.Stat.Value>
+                </Stats.Stat>
+                <Stats.Stat className="w-auto shadow">
+                  <Stats.Stat.Title className="font-semibold">
+                    רווח אחרי מס (25%)
+                  </Stats.Stat.Title>
+                  <Stats.Stat.Value
+                    className="text-lg"
+                    style={{ color: "#ffc658" }}
+                  >
+                    {formatCurrency(result.profitAfterTax)}
+                  </Stats.Stat.Value>
+                </Stats.Stat>
+                <Stats.Stat className="w-auto shadow">
+                  <Stats.Stat.Title className="font-semibold">
+                    סכום סופי אחרי מס
+                  </Stats.Stat.Title>
+                  <Stats.Stat.Value
+                    className="text-lg"
+                    style={{ color: "#8884d8" }}
+                  >
+                    {formatCurrency(
+                      result.totalDeposits + result.profitAfterTax
+                    )}
+                  </Stats.Stat.Value>
+                </Stats.Stat>
+              </Stats>
               <div className="flex flex-col lg:flex-row gap-4">
-                <div
-                  className="overflow-auto flex-1"
-                  style={{ maxHeight: "400px" }}
-                >
-                  <Table  size="sm">
+                <div className="overflow-auto flex-1 md:max-h-[400px] max-h-fit">
+                  <Table size="sm">
                     <Table.Head>
-                      <span>
+                      <div className="flex gap-1 md:flex-row flex-col">
+                        <span>תקופה</span>
+                        <span>
+                          {" "}
+                          {calculatedInputs.depositFrequency === "monthly"
+                            ? "(חודשים)"
+                            : "(שנים)"}
+                        </span>
+                      </div>
+                      {/* <span>
                         תקופה{" "}
-                        {calculatedInputs.depositFrequency === "monthly"
-                          ? "(חודשים)"
-                          : "(שנים)"}
-                      </span>
+                       
+                      </span> */}
                       <span>הפקדות</span>
                       <span>רווח</span>
                       <span>סה&quot;כ</span>
@@ -359,7 +373,7 @@ export default function CompoundInterestCalculator() {
                   </Table>
                 </div>
 
-                <Card className="bg-base-200">
+                <Card className="bg-base-200 hidden lg:flex">
                   <Card.Body className="p-2">
                     <LineChart
                       width={500}
