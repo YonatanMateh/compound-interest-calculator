@@ -60,13 +60,18 @@ const formatPeriod = (period: number) => {
 };
 
 export default function CompoundInterestCalculator() {
-  const [inputs, setInputs] = useState<CalculatorInputs>({
-    initialAmount: "",
-    interestRate: "",
-    depositFrequency: "monthly",
-    durationType: "years",
-    duration: "",
-    periodicDeposit: "",
+  const [inputs, setInputs] = useState<CalculatorInputs>(() => {
+    const savedInputs = localStorage.getItem("calculatorInputs");
+    return savedInputs
+      ? JSON.parse(savedInputs)
+      : {
+          initialAmount: "",
+          interestRate: "",
+          depositFrequency: "monthly",
+          durationType: "years",
+          duration: "",
+          periodicDeposit: "",
+        };
   });
 
   const [calculatedInputs, setCalculatedInputs] =
@@ -78,6 +83,10 @@ export default function CompoundInterestCalculator() {
       setInputs((prev) => ({ ...prev, durationType: "years" }));
     }
   }, [inputs.depositFrequency]);
+
+  useEffect(() => {
+    localStorage.setItem("calculatorInputs", JSON.stringify(inputs));
+  }, [inputs]);
 
   const calculateCompoundInterest = () => {
     setCalculatedInputs(inputs);
@@ -157,12 +166,13 @@ export default function CompoundInterestCalculator() {
                   <label className="label">סכום התחלתי</label>
                   <Input
                     type="number"
-                    className="w-full max-w-[100px]"
+                    className="w-full max-w-[100px] decima"
                     value={inputs.initialAmount}
                     onChange={(e) =>
                       setInputs({ ...inputs, initialAmount: e.target.value })
                     }
                     placeholder="0"
+                    inputMode="decimal"
                   />
                 </div>
 
@@ -176,6 +186,7 @@ export default function CompoundInterestCalculator() {
                       setInputs({ ...inputs, interestRate: e.target.value })
                     }
                     placeholder="0"
+                    inputMode="decimal"
                   />
                 </div>
 
@@ -189,6 +200,7 @@ export default function CompoundInterestCalculator() {
                       setInputs({ ...inputs, periodicDeposit: e.target.value })
                     }
                     placeholder="0"
+                    inputMode="decimal"
                   />
                 </div>
 
@@ -237,6 +249,7 @@ export default function CompoundInterestCalculator() {
                         setInputs({ ...inputs, duration: e.target.value })
                       }
                       placeholder="0"
+                      inputMode="decimal"
                     />
                     <Select
                       value={inputs.durationType}
